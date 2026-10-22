@@ -46,7 +46,8 @@ strong { color: #0b0b0b; }
 code { font-family: Consolas, 'Cascadia Mono', monospace; font-size: 9pt; background: #f0efec;
        padding: 0 3px; border-radius: 3px; }
 hr { border: 0; border-top: 1px solid #e1e0d9; margin: 14pt 0; }
-blockquote { margin: 6pt 0 10pt; padding: 6pt 12pt; background: #f4f3ef; border-radius: 6px; color: #3a3936; }
+blockquote { margin: 6pt 0 10pt; padding: 6pt 12pt; background: #f4f3ef; border-radius: 6px; color: #3a3936;
+             break-inside: avoid; }
 blockquote h3 { margin-top: 2pt; }
 table { width: 100%%; border-collapse: collapse; margin: 4pt 0 10pt; font-size: 9pt; line-height: 1.35; }
 thead { display: table-header-group; }

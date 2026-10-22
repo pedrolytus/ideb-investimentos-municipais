@@ -407,6 +407,19 @@ Esse cuidado atende diretamente ao critério "prevenção de vazamento de dados"
 
 **Decisão de formato:** escolhemos uma apresentação em HTML, com um card por ideia e os gráficos de `figuras/`, porque abre em qualquer navegador e usa diretamente as figuras geradas pelos notebooks. O PDF cobre o risco de falta de rede.
 
+### Fase 21 – Guia da apresentação refeito slide a slide (22/10/2026)
+
+**O que fizemos:** reescrevemos `docs/guia_apresentacao.md` em quatro partes: (1) a justificativa da escolha dos algoritmos, no início; (2) a fala de cada um dos 24 slides, com quem apresenta, o tempo, os números-chave, as transições entre a dupla e os prints que comprovam cada resultado; (3) 22 perguntas prováveis com respostas, agrupadas em negócio, dados, método, métricas e decisão; (4) cola de números e checklist. Geramos de novo `docs/guia_apresentacao.pdf` (17 páginas) com `docs/gerar_pdfs.py`.
+
+**Por quê:** a primeira versão seguia os 7 itens do enunciado, e cada item juntava vários slides. Na hora de apresentar, é mais fácil seguir o roteiro na mesma ordem dos slides, com a fala pronta para cada um. A justificativa dos algoritmos ganhou uma seção própria porque é o critério "justificativa do método" da avaliação e a pergunta mais provável da turma.
+
+**Resultado**
+- A justificativa compara os 6 métodos da disciplina numa tabela (tipo, se estima o IDEB, como se interpreta e papel no trabalho) e explica, com os números do projeto, por que a Regressão Linear é a principal, o SVR o desafiante, a Regressão Logística complementar e os agrupamentos descartados.
+- Tempo total estimado: cerca de 19 minutos. Os slides 12, 17 e 18 podem ser encurtados se faltar tempo.
+- Ajuste de paginação no PDF: as falas não se dividem entre páginas, e cada legenda fica junto do print correspondente.
+
+**Para a apresentação:** a frase-resumo da escolha do método está no fim da seção 1 do guia e deve ser dita no slide 9 ou na resposta à pergunta 9.
+
 ---
 
 ## Destaques para a apresentação (atualizar ao longo do projeto)
