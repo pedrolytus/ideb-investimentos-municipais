@@ -1,0 +1,9 @@
+{
+  "svr": {
+    "C": 10,
+    "epsilon": 0.5,
+    "gamma": 0.01
+  },
+  "categorica_modelo": "sigla_uf",
+  "modelo_principal": "Regressão Linear + UF"
+}
