@@ -71,8 +71,9 @@ Variáveis que entram no cálculo do IDEB (taxa de aprovação, notas do SAEB, r
 │   └── checagens_finais.py         # validação automática do projeto
 ├── figuras/                        # gráficos usados na apresentação
 ├── docs/
-│   ├── diario_do_projeto.md        # decisões, desafios e ajustes
-│   ├── guia_apresentacao.md        # roteiro de fala, números-chave e perguntas
+│   ├── diario_do_projeto.md        # decisões, desafios e ajustes (+ versão .pdf)
+│   ├── guia_apresentacao.md        # roteiro de fala, números-chave e perguntas (+ versão .pdf)
+│   ├── gerar_pdfs.py               # refaz os dois PDFs a partir dos .md
 │   ├── prints/                     # prints dos notebooks executados
 │   └── apresentacao/               # slides (index.html) e cópia em PDF
 ├── colunas_basedosdados.csv        # colunas das tabelas consultadas
@@ -105,6 +106,12 @@ As checagens conferem que os notebooks rodaram sem erro, que nenhuma variável d
 ## Apresentação
 
 Abra `docs/apresentacao/index.html` no navegador e avance com as setas do teclado (precisa de internet para carregar as bibliotecas visuais). A cópia em PDF está em `docs/apresentacao/apresentacao.pdf`. O roteiro de fala está em `docs/guia_apresentacao.md`.
+
+O diário e o guia também têm versão em PDF (`docs/diario_do_projeto.pdf` e `docs/guia_apresentacao.pdf`). Depois de editar algum dos `.md`, refaça os PDFs com:
+
+```bash
+python docs/gerar_pdfs.py
+```
 
 ## Limitações principais
 

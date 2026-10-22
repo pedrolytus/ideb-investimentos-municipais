@@ -165,12 +165,13 @@ Esse cuidado atende diretamente ao critério "prevenção de vazamento de dados"
 > A partir daqui, cada etapa da implementação (extração, EDA, preparação, modelagem, avaliação) entra como uma nova entrada, neste formato:
 >
 > ### Fase N – Título (data)
-> **O que fizemos:** ...
-> **Por quê:** ...
-> **Desafio:** ... (se houve)
-> **Ajuste/solução:** ...
-> **Resultado:** números concretos (linhas, métricas, % de ausentes etc.)
-> **Para a apresentação:** a frase ou o gráfico que vale mostrar (com caminho em `figuras/`).
+>
+> - **O que fizemos:** ...
+> - **Por quê:** ...
+> - **Desafio:** ... (se houve)
+> - **Ajuste/solução:** ...
+> - **Resultado:** números concretos (linhas, métricas, % de ausentes etc.)
+> - **Para a apresentação:** a frase ou o gráfico que vale mostrar (com caminho em `figuras/`).
 
 ### Fase 11 – Primeira extração e validação da base (22/10/2026)
 
