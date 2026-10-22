@@ -1,5 +1,7 @@
 # IDEB e investimentos municipais
 
+Repositório: `ideb-investimentos-municipais`
+
 Trabalho da disciplina de Aprendizado de Máquina Supervisionado (FATESG – Tecnologia em Inteligência Artificial), Problema 4 – Política e Gestão Pública.
 
 Autoria: Pedro Lytus – LYTUS Inteligência de Negócios.
@@ -20,7 +22,21 @@ Quais características dos municípios estão associadas às diferenças no IDEB
 | Abrangência | Brasil, com Goiás como estudo de caso |
 | Tarefa | Regressão supervisionada |
 
-Modelo principal: Regressão Linear. Modelo desafiante: SVR (kernel RBF). Baseline: média do IDEB por UF.
+Modelo principal: Regressão Linear com UF em one-hot. Modelo desafiante: SVR (kernel RBF). Baseline: média do IDEB por UF.
+
+## Resultados
+
+| Modelo | RMSE na CV 2023 | R² na CV 2023 | RMSE no teste 2025 | RMSE 2025 sem o viés |
+|---|---|---|---|---|
+| Baseline: média da UF | 0,686 | 0,475 | 0,800 | 0,696 |
+| Regressão Linear + região | 0,733 | 0,402 | – | – |
+| **Regressão Linear + UF** | **0,642** | **0,541** | 0,745 | 0,658 |
+| SVR ajustado (validação aninhada) | 0,645 | 0,537 | 0,711 | 0,627 |
+
+- A Regressão Linear com região perdeu para o baseline. Com a UF no lugar da região, passou a errar 6,5% menos que ele.
+- Em 2025 o IDEB real ficou 0,35 ponto acima do previsto (alta média do país). Descontado esse deslocamento, o erro fica perto do da validação cruzada, e a ordem dos municípios se mantém (Spearman de 0,70 na Regressão Linear e 0,74 no SVR).
+- Fatores mais associados ao IDEB dentro da mesma UF: nível socioeconômico, % de docentes com superior e infraestrutura pedagógica. Dobrar o gasto por aluno acompanha só +0,06 ponto no modelo completo (+0,41 sem controles).
+- 534 municípios ficam abaixo do esperado nas duas edições, e os dois modelos concordam em 300 deles. Em Goiás são 30 (19 com concordância), 7 deles no Entorno de Brasília.
 
 ## Dados
 
@@ -35,6 +51,8 @@ Fonte: [Base dos Dados](https://basedosdados.org/), consultada no Google BigQuer
 
 O resultado da consulta está em `dados/brutos/base_ideb_municipios.csv` (10.561 linhas, 54 colunas). Para refazer a extração, rode a consulta no BigQuery e exporte o resultado em CSV com o mesmo nome.
 
+`dados/brutos/municipios_ibge.csv` traz nomes e microrregiões oficiais dos municípios (API de localidades do IBGE) e serve só para identificar os municípios nas tabelas do notebook 04.
+
 Variáveis que entram no cálculo do IDEB (taxa de aprovação, notas do SAEB, reprovação, abandono, distorção idade-série) e a meta projetada não são usadas como feature, para evitar vazamento.
 
 ## Estrutura
@@ -47,9 +65,16 @@ Variáveis que entram no cálculo do IDEB (taxa de aprovação, notas do SAEB, r
 │   ├── 01_negocio_e_exploracao.ipynb
 │   ├── 02_preparacao_dados.ipynb
 │   ├── 03_modelagem.ipynb
-│   └── 04_avaliacao_e_recomendacoes.ipynb
+│   ├── 04_avaliacao_e_recomendacoes.ipynb
+│   ├── estilo_graficos.py          # cores, rótulos e formatação dos gráficos
+│   ├── modelagem.py                # winsorizador, baseline, pré-processador e métricas
+│   └── checagens_finais.py         # validação automática do projeto
 ├── figuras/                        # gráficos usados na apresentação
-├── docs/diario_do_projeto.md       # decisões, desafios e ajustes
+├── docs/
+│   ├── diario_do_projeto.md        # decisões, desafios e ajustes
+│   ├── guia_apresentacao.md        # roteiro de fala, números-chave e perguntas
+│   ├── prints/                     # prints dos notebooks executados
+│   └── apresentacao/               # slides (index.html) e cópia em PDF
 ├── colunas_basedosdados.csv        # colunas das tabelas consultadas
 └── valores_basedosdados.csv        # valores usados nos filtros
 ```
@@ -66,7 +91,20 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Execute os notebooks na ordem numérica. Cada um lê o que o anterior gravou em `dados/processados/` e salva os gráficos em `figuras/`.
+Execute os notebooks na ordem numérica. Cada um lê o que o anterior gravou em `dados/processados/` e salva os gráficos em `figuras/`. O notebook 03 leva cerca de 8 minutos (busca em grade do SVR com validação aninhada).
+
+Para rodar tudo de uma vez e validar:
+
+```bash
+jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=3600 notebooks/0*.ipynb
+python notebooks/checagens_finais.py
+```
+
+As checagens conferem que os notebooks rodaram sem erro, que nenhuma variável do cálculo do IDEB entrou no modelo, que a safra 2025 não foi usada na modelagem, que o pré-processamento aprende só com o treino, que as figuras citadas no diário existem e que as versões dos pacotes batem com o `requirements.txt`.
+
+## Apresentação
+
+Abra `docs/apresentacao/index.html` no navegador e avance com as setas do teclado (precisa de internet para carregar as bibliotecas visuais). A cópia em PDF está em `docs/apresentacao/apresentacao.pdf`. O roteiro de fala está em `docs/guia_apresentacao.md`.
 
 ## Limitações principais
 

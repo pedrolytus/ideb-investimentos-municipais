@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDEB e investimento municipal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background: #222222;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(255, 162, 3, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 162, 3, 0.3);
+        }
+
+        .primary-color {
+            color: #FFA203;
+        }
+
+        .primary-bg {
+            background: #FFA203;
+        }
+
+        .icon-container {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 162, 3, 0.2);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes scroll-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        /* === BARRA DE PROGRESSO DE LEITURA === */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FFA203, #FF6B00, #FFA203);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            z-index: 9999;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(255, 162, 3, 0.5);
+        }
+
+        /* === BOTÃO PRÓXIMO CARD === */
+        #next-card {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 162, 3, 0.9);
+            color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(255, 162, 3, 0.4);
+            border: none;
+        }
+
+        #next-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #next-card:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 162, 3, 0.6);
+        }
+
+        .glass-card img.grafico { max-height: 68vh; width: auto; max-width: 100%; margin: 0 auto; display: block; }
+        .num-estatico { font-variant-numeric: normal; }
+        @media print {
+            [data-aos] { opacity: 1 !important; transform: none !important; }
+            #reading-progress, #next-card, #header-next-btn { display: none !important; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+
+<body class="font-sans">
+
+    <!-- Barra de Progresso de Leitura -->
+    <div id="reading-progress" style="width: 0%;"></div>
+
+    <!-- Botão Próximo Card (flutuante) -->
+    <button id="next-card" aria-label="Próximo card">
+        <i data-lucide="chevron-down" class="w-6 h-6" id="next-card-icon"></i>
+    </button>
+
+<header class="min-h-screen flex items-center justify-center relative overflow-hidden"
+    style="background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #1a1a2e, #16213e); background-size: 400% 400%; animation: gradientShift 15s ease infinite;">
+    <div class="absolute inset-0 pointer-events-none"
+        style="background-image: radial-gradient(circle at 20% 80%, rgba(255, 162, 3, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 162, 3, 0.1) 0%, transparent 50%);">
+    </div>
+    <div class="text-center relative z-10 px-6" data-aos="fade-down">
+        <span
+            class="inline-block bg-[#FFA203] text-white text-sm font-bold px-4 py-2 rounded-full mb-6">Problema 4 · Política e Gestão Pública</span>
+        <h1 class="text-5xl md:text-6xl font-bold mb-4">IDEB e investimento municipal</h1>
+        <p class="text-xl text-white/90 max-w-3xl mx-auto mb-8">Quais características dos municípios acompanham um IDEB maior, e quem está abaixo do esperado para o seu perfil</p>
+
+        <div class="text-7xl md:text-8xl font-black primary-color" data-aos="zoom-in" data-aos-delay="200">
+            46%</div>
+        <p class="text-white/70 text-lg mt-2">dos municípios atingem a meta 6,0 no IDEB 2023 (anos iniciais, rede municipal)</p>
+        <p class="text-white/50 text-sm mt-10">Pedro Lytus · LYTUS Inteligência de Negócios · FATESG – Aprendizado de Máquina Supervisionado</p>
+    </div>
+
+    <button
+        class="absolute bottom-8 right-8 flex flex-col items-center gap-2 cursor-pointer bg-transparent border-none group"
+        id="header-next-btn" aria-label="Ir para o primeiro card"
+        style="animation: scroll-bounce 2s ease-in-out infinite;">
+        <span
+            class="text-[10px] uppercase tracking-[4px] text-white/30 font-medium group-hover:text-[#FFA203] transition-colors">Iniciar</span>
+        <div
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#FFA203]/20 transition-all">
+            <i data-lucide="chevron-down"
+                class="w-5 h-5 text-white/40 group-hover:text-[#FFA203] transition-colors"></i>
+        </div>
+    </button>
+</header>
+<main class="container mx-auto px-4 py-20 flex flex-col items-center gap-[60vh]">
+<div class="glass-card rounded-xl p-8 w-full max-w-3xl" data-aos="fade-up" data-aos-delay="100">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="landmark" class="icon-line primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">O problema de negócio</h3>
+    </div>
+    <p class="text-white/80 text-lg mb-6">Qual IDEB seria esperado para cada município, dado o seu perfil? Quais fatores acompanham as diferenças?</p>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 num-estatico whitespace-nowrap">5.241</span>
+            <p class="text-white/90 text-lg pt-1">municípios com IDEB da rede municipal em 2023 (5.320 em 2025)</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 num-estatico whitespace-nowrap">6</span>
+            <p class="text-white/90 text-lg pt-1">fontes oficiais cruzadas pelo código do município (INEP, Tesouro Nacional e IBGE)</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 num-estatico whitespace-nowrap">R$ 0</span>
+            <p class="text-white/90 text-lg pt-1">de custo na extração (BigQuery Sandbox)</p>
+        </li>
+    </ul>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-2xl" data-aos="fade-up" data-aos-delay="200">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="git-merge" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Da pergunta ao recorte</h3>
+    </div>
+    <div class="space-y-8 relative">
+        <div class="absolute left-[19px] top-2 bottom-2 w-0.5 bg-white/10"></div>
+        <div class="relative pl-12">
+            <div
+                class="absolute left-0 top-1 w-10 h-10 rounded-full primary-bg flex items-center justify-center border-4 border-[#222222]">
+                <span class="text-white font-bold">1</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Quem financia cada etapa?</h4>
+            <p class="text-white/70 text-base">O ensino médio é estadual, e os anos finais são divididos entre estado e prefeitura.</p>
+        </div>
+        <div class="relative pl-12">
+            <div
+                class="absolute left-0 top-1 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border-4 border-[#222222]">
+                <span class="text-white font-bold">2</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Anos iniciais, rede municipal</h4>
+            <p class="text-white/70 text-base">É a etapa que a prefeitura financia quase sozinha, então o gasto municipal conversa com o resultado.</p>
+        </div>
+        <div class="relative pl-12">
+            <div
+                class="absolute left-0 top-1 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border-4 border-[#222222]">
+                <span class="text-white font-bold">3</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Município e ano</h4>
+            <p class="text-white/70 text-base">Treino com o IDEB 2023. Teste fora do tempo com o IDEB 2025, usado uma única vez.</p>
+        </div>
+        <div class="relative pl-12">
+            <div
+                class="absolute left-0 top-1 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border-4 border-[#222222]">
+                <span class="text-white font-bold">4</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Regressão supervisionada</h4>
+            <p class="text-white/70 text-base">O alvo, o IDEB (0 a 10), é contínuo.</p>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="table" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Variáveis consideradas e quem as controla</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-white/20">
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Grupo</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Exemplos na base</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Gestor controla?</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10">
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Contexto socioeconômico</td>
+                    <td class="py-3 px-4 text-white/80">INSE 2015, PIB per capita, % de matrículas rurais</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Não: controle</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Professores e gestão</td>
+                    <td class="py-3 px-4 text-white/80">% de docentes com superior, formação adequada, esforço docente</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Em parte</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Infraestrutura</td>
+                    <td class="py-3 px-4 text-white/80">Biblioteca, quadra, internet para alunos, laboratório</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Sim</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Gasto</td>
+                    <td class="py-3 px-4 text-white/80">Despesa liquidada com ensino fundamental por aluno (Siconfi)</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Sim</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Fatores externos</td>
+                    <td class="py-3 px-4 text-white/80">Política estadual, participação no SAEB, pandemia</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Não: limitação</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-white/10">
+        <p class="text-white/50 text-sm italic">* Nada que entra no cálculo do IDEB (aprovação, nota do SAEB, reprovação, abandono) foi usado.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="100">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/01_ideb_por_uf_2023.png" alt="IDEB 2023 por UF" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Visualização</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">A UF pesa: a média vai de 4,77 no Norte a 6,35 no Sul. Goiás tem a 6ª maior mediana (6,2) entre 26 UFs.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="200">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/01_inse_vs_ideb_ceara.png" alt="INSE e IDEB, com o Ceará em destaque" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Visualização</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">O nível socioeconômico explica muito (Spearman 0,57), mas o Ceará fica em média 1,82 ponto acima da tendência: um fator externo, a política estadual de alfabetização.</p>
+    </div>
+</div>
+
+<div class="w-full max-w-5xl" data-aos="fade-up" data-aos-delay="300">
+    <h3 class="text-3xl font-bold text-center mb-10">Desafios de dados, antes de modelar</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center border-t-4 border-t-white/20">
+            <i data-lucide="database-zap" class="w-10 h-10 mb-4 text-white/70"></i>
+            <h4 class="text-xl font-bold mb-2">Fonte corrompida</h4>
+            <p class="text-white/60 text-sm mb-6">Indicadores de 2023 e 2024 com colunas trocadas</p>
+            <div class="text-4xl font-black mb-6">4 alunos</div>
+            <ul class="text-left text-sm text-white/80 space-y-3 mb-2 w-full">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> por turma: Goiânia em 2023, na fonte (o real é 24,5)
+                </li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Ajuste: indicadores de 2022 nas duas safras
+                </li>
+            </ul>
+        </div>
+
+        <div
+            class="glass-card rounded-2xl p-8 flex flex-col items-center text-center border-t-4 border-t-[#FFA203] relative transform scale-105 z-10 shadow-2xl">
+            <div
+                class="absolute -top-3 bg-[#FFA203] text-[#222222] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">
+                Crítico</div>
+            <i data-lucide="shield-alert" class="w-10 h-10 mb-4 primary-color"></i>
+            <h4 class="text-xl font-bold mb-2">Vazamento</h4>
+            <p class="text-white/60 text-sm mb-6">IDEB = nota do SAEB × taxa de aprovação</p>
+            <div class="text-4xl font-black primary-color mb-6">0 variáveis</div>
+            <ul class="text-left text-sm text-white/80 space-y-3 mb-2 w-full">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> do cálculo do IDEB entram no modelo
+                </li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Pipeline ajustado só no treino de cada dobra
+                </li>
+            </ul>
+        </div>
+
+        <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center border-t-4 border-t-white/20">
+            <i data-lucide="receipt" class="w-10 h-10 mb-4 text-white/70"></i>
+            <h4 class="text-xl font-bold mb-2">Gasto declarado errado</h4>
+            <p class="text-white/60 text-sm mb-6">O Siconfi é autodeclarado</p>
+            <div class="text-4xl font-black mb-6">R$ 191 mil</div>
+            <ul class="text-left text-sm text-white/80 space-y-3 mb-2 w-full">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> por aluno num município de MG
+                </li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> 15 valores implausíveis viraram ausentes
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<!-- CARD CTA: Comparar cada município com o -->
+<div class="glass-card rounded-2xl p-12 w-full max-w-5xl text-center bg-gradient-to-br from-[#FFA203]/10 to-transparent border border-[#FFA203]/30"
+    data-aos="fade-up" data-aos-delay="100">
+
+    <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="w-full md:w-1/2" data-aos="fade-right" data-aos-delay="300">
+            <img src="../../figuras/04_goias_real_vs_esperado.png" alt="Goiás: IDEB real x esperado"
+                class="w-full h-auto rounded-lg drop-shadow-[0_0_25px_rgba(255,162,3,0.3)] hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <div class="w-full md:w-1/2 text-left">
+            <div class="mb-6">
+                <span
+                    class="inline-block bg-[#FFA203] text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">A proposta</span>
+                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Comparar cada município com o <span
+                        class="text-[#FFA203]">IDEB esperado para o seu perfil</span>
+                </h3>
+                <p class="text-white/80 mb-6 text-lg">Em vez da média nacional, a régua é o resultado de municípios parecidos no mesmo estado.</p>
+
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FFA203] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>Comparação justa:</strong> um município pobre com IDEB 5,5 pode estar acima do esperado</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-lucide="target" class="w-5 h-5 text-[#FFA203] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>Priorização:</strong> quem fica abaixo do esperado em duas edições seguidas</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-lucide="users" class="w-5 h-5 text-[#FFA203] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>Aprendizado:</strong> quem supera o esperado vira referência para os demais</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <a href="#metodo"
+                    class="w-full px-8 py-4 bg-[#FFA203] text-black font-bold rounded-lg hover:bg-[#ffb340] transition-colors flex items-center justify-center gap-2 transform hover:scale-105 shadow-[0_0_20px_rgba(255,162,3,0.4)]">
+                    <i data-lucide="book-open-check"></i>
+                    Ver como escolhemos o método
+                </a>
+                <p class="text-center text-xs text-white/50">Associação não é causalidade: o modelo prioriza, não decide sozinho.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="metodo" class="glass-card rounded-xl p-8 w-full max-w-5xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="scale" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Seleção do método</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-white/20">
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Modelo</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Por quê</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Papel</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10">
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Regressão Linear</td>
+                    <td class="py-3 px-4 text-white/80">Coeficientes mostram quanto cada fator acompanha o IDEB, mantidos os demais</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Principal</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">SVR (SVM, kernel RBF)</td>
+                    <td class="py-3 px-4 text-white/80">Capta não linearidades e interações, mas não tem coeficientes</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Desafiante</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Regressão Logística</td>
+                    <td class="py-3 px-4 text-white/80">Exige virar "atingiu 6,0?" e perde a informação de quanto falta</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Complementar</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">GMM, DBSCAN, Mean Shift</td>
+                    <td class="py-3 px-4 text-white/80">Não supervisionados: formam grupos, mas não estimam o IDEB</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Descartados</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Média do IDEB da UF</td>
+                    <td class="py-3 px-4 text-white/80">O que se consegue sem modelo; todo modelo precisa superá-la</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Baseline</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-white/10">
+        <p class="text-white/50 text-sm italic">* Lista restrita pela disciplina: Mean Shift, GMM, DBSCAN, Regressão Linear, Regressão Logística e SVM.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl overflow-hidden w-full max-w-4xl" data-aos="fade-up" data-aos-delay="300">
+    <div class="bg-white/10 px-4 py-2 flex items-center justify-between border-b border-white/10">
+        <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+        </div>
+        <div class="flex items-center gap-2">
+            <i data-lucide="code-2" class="w-4 h-4 text-white/40"></i>
+            <span class="text-xs font-mono text-white/40 uppercase tracking-widest">python</span>
+        </div>
+        <button class="text-white/40 hover:text-[#FFA203] transition-colors"
+            onclick="navigator.clipboard.writeText(`pipeline = Pipeline([
+    ('prep', ColumnTransformer([
+        ('num', Pipeline([('winsor', Winsorizador(0.01, 0.99)),
+                          ('imputacao', SimpleImputer(strategy='median')),
+                          ('escala', StandardScaler())]), NUMERICAS),
+        ('cat', OneHotEncoder(drop='first'), ['sigla_uf'])])),
+    ('modelo', LinearRegression())])
+
+cv = KFold(n_splits=5, shuffle=True, random_state=42)
+cross_validate(pipeline, X, y, cv=cv, scoring=['neg_root_mean_squared_error', 'r2'])`)">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+        </button>
+    </div>
+
+    <div class="p-8 overflow-x-auto bg-[#1a1a1a]/50">
+        <pre class="font-mono text-base md:text-lg font-bold leading-relaxed text-white/90"><code>pipeline = Pipeline([
+    (&#x27;prep&#x27;, ColumnTransformer([
+        (&#x27;num&#x27;, Pipeline([(&#x27;winsor&#x27;, Winsorizador(0.01, 0.99)),
+                          (&#x27;imputacao&#x27;, SimpleImputer(strategy=&#x27;median&#x27;)),
+                          (&#x27;escala&#x27;, StandardScaler())]), NUMERICAS),
+        (&#x27;cat&#x27;, OneHotEncoder(drop=&#x27;first&#x27;), [&#x27;sigla_uf&#x27;])])),
+    (&#x27;modelo&#x27;, LinearRegression())])
+
+cv = KFold(n_splits=5, shuffle=True, random_state=42)
+cross_validate(pipeline, X, y, cv=cv, scoring=[&#x27;neg_root_mean_squared_error&#x27;, &#x27;r2&#x27;])</code></pre>
+    </div>
+
+    <div class="px-8 py-4 bg-white/5 border-t border-white/5 flex items-center justify-between">
+        <span class="text-base text-white/50 font-mono italic">// notebooks/modelagem.py · tudo que aprende com os dados fica dentro do Pipeline</span>
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full primary-bg animate-pulse"></div>
+            <span class="text-base text-white/60 font-medium">Ready</span>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="100">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/03_comparacao_modelos_cv.png" alt="Comparação dos modelos na validação cruzada" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Validação cruzada 2023</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">Desafio: a Regressão Linear com região errou mais que o baseline (0,733 contra 0,686). Com a UF no lugar da região, o erro caiu para 0,642, 6,5% abaixo do baseline.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="200">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/03_ganho_por_bloco_features.png" alt="Ganho de R² por bloco de variáveis" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Validação cruzada 2023</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">Depois da UF, o contexto socioeconômico é o bloco que mais acrescenta. O gasto por aluno, entrando por último, não acrescenta nada.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-3xl" data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="bar-chart-3" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Teste fora do tempo: IDEB 2025</h3>
+    </div>
+    <p class="text-white/80 text-lg">Avaliação única. O IDEB real ficou 0,35 ponto acima do previsto (o país melhorou entre as edições). Descontado esse deslocamento, a variação explicada foi:</p>
+    <div class="space-y-6 mt-8">
+        <div>
+            <div class="flex justify-between mb-2">
+                <span class="font-semibold">Baseline: média da UF</span>
+                <span class="primary-color font-bold">39%</span>
+            </div>
+            <div class="w-full h-3 bg-white/20 rounded-full">
+                <div class="h-full rounded-full primary-bg progress-bar-fill"
+                    style="width: 0%; transition: width 2s ease-out;" data-width="39"></div>
+            </div>
+        </div>
+        <div>
+            <div class="flex justify-between mb-2">
+                <span class="font-semibold">Regressão Linear + UF</span>
+                <span class="primary-color font-bold">45%</span>
+            </div>
+            <div class="w-full h-3 bg-white/20 rounded-full">
+                <div class="h-full rounded-full primary-bg progress-bar-fill"
+                    style="width: 0%; transition: width 2s ease-out;" data-width="45"></div>
+            </div>
+        </div>
+        <div>
+            <div class="flex justify-between mb-2">
+                <span class="font-semibold">SVR ajustado</span>
+                <span class="primary-color font-bold">50%</span>
+            </div>
+            <div class="w-full h-3 bg-white/20 rounded-full">
+                <div class="h-full rounded-full primary-bg progress-bar-fill"
+                    style="width: 0%; transition: width 2s ease-out;" data-width="50"></div>
+            </div>
+        </div>
+    </div>
+    <p class="text-white/50 text-sm italic mt-8">R² sem o viés. Ordem dos municípios (Spearman): 0,64 no baseline, 0,70 na Regressão Linear e 0,74 no SVR.</p>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="100">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/04_previsto_vs_real_2025.png" alt="Previsto x real em 2025" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Teste 2025</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">Descontada a alta média de 0,35 ponto, o erro da Regressão Linear (0,658) fica perto do da validação cruzada (0,642). O SVR errou 4,6% menos no teste, mas a escolha feita antes do teste foi mantida.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="200">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/04_coeficientes_regressao_linear.png" alt="Coeficientes da Regressão Linear" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Interpretação</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">Dentro da mesma UF: INSE (+0,31 ponto a cada 5 pontos), docentes com superior (+0,05 a cada 10 p.p.), biblioteca, internet, laboratório, quadra e tempo integral acompanham IDEB maior. Esforço docente e gestão complexa, IDEB menor.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-3xl" data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="wallet" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Quanto vale dobrar o gasto por aluno?</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="rounded-lg p-6 bg-white/5" data-aos="zoom-in">
+            <div class="text-4xl font-black primary-color mb-3 num-estatico">+0,41</div>
+            <p class="text-white/90 text-base">ponto de IDEB, sem nenhum controle</p>
+        </div>
+        <div class="rounded-lg p-6 bg-white/5" data-aos="zoom-in">
+            <div class="text-4xl font-black primary-color mb-3 num-estatico">+0,20</div>
+            <p class="text-white/90 text-base">controlando INSE e PIB per capita</p>
+        </div>
+        <div class="rounded-lg p-6 bg-white/5" data-aos="zoom-in">
+            <div class="text-4xl font-black primary-color mb-3 num-estatico">+0,11</div>
+            <p class="text-white/90 text-base">comparando municípios da mesma UF</p>
+        </div>
+        <div class="rounded-lg p-6 bg-white/5" data-aos="zoom-in">
+            <div class="text-4xl font-black primary-color mb-3 num-estatico">+0,06</div>
+            <p class="text-white/90 text-base">no modelo completo (IC 95%: 0,01 a 0,11)</p>
+        </div>
+    </div>
+    <p class="text-white/50 text-sm italic mt-6">A associação encolhe à medida que o contexto entra: é confusão, e por isso associação não é causalidade.</p>
+</div>
+
+<div class="glass-card rounded-xl p-4 w-full max-w-5xl" data-aos="zoom-in" data-aos-delay="100">
+    <div class="rounded-lg overflow-hidden border border-white/10 mb-4 bg-[#fcfcfb]">
+        <img src="../../figuras/01_gasto_vs_ideb_por_inse.png" alt="Gasto por aluno e IDEB por faixa de INSE" class="grafico opacity-95 hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="px-2 pb-2">
+        <div class="flex items-center gap-2 mb-1">
+            <i data-lucide="image" class="w-4 h-4 primary-color"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-white/60">Confusão</span>
+        </div>
+        <p class="text-white/90 font-medium text-lg">Quem gasta mais tem alunos de nível socioeconômico mais alto: no quintil de maior gasto, 45% dos municípios têm INSE alto e 14% INSE baixo.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-10 w-full max-w-2xl text-center relative" data-aos="fade-right"
+    data-aos-delay="200">
+    <div class="absolute top-4 left-6 text-7xl font-serif primary-color opacity-20">“</div>
+
+    <blockquote class="relative z-10">
+        <p class="text-2xl italic text-white/90 leading-relaxed mb-6">
+            Entre municípios parecidos, gastar mais por aluno, sozinho, acompanha uma diferença pequena no IDEB. O que provavelmente pesa é como o recurso é usado.
+        </p>
+        <cite class="not-italic">
+            <div class="w-12 h-1 primary-bg mx-auto mb-4"></div>
+            <span class="block text-white font-bold text-lg">Leitura dos resultados</span>
+            <span class="block text-white/60 text-sm">Efeito parcial do gasto entre o percentil 5 e o 95: +0,09 a +0,12 ponto</span>
+        </cite>
+    </blockquote>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-3xl" data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="list-checks" class="icon-line primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Priorização: abaixo do esperado em duas edições</h3>
+    </div>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 num-estatico whitespace-nowrap">534</span>
+            <p class="text-white/90 text-lg pt-1">municípios abaixo do esperado em 2023 e em 2025 (10,3%), e 565 acima</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 num-estatico whitespace-nowrap">300</span>
+            <p class="text-white/90 text-lg pt-1">em que a Regressão Linear e o SVR concordam: a lista principal</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 num-estatico whitespace-nowrap">0,66</span>
+            <p class="text-white/90 text-lg pt-1">de correlação do desvio entre as edições: não é ruído, é algo persistente do município</p>
+        </li>
+    </ul>
+</div>
+
+<div class="w-full max-w-5xl" data-aos="fade-up" data-aos-delay="100">
+    <h3 class="text-3xl font-bold text-center mb-10">Goiás: estudo de caso</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center border-t-4 border-t-white/20">
+            <i data-lucide="trending-down" class="w-10 h-10 mb-4 text-white/70"></i>
+            <h4 class="text-xl font-bold mb-2">Abaixo do esperado</h4>
+            <p class="text-white/60 text-sm mb-6">nas duas edições, de 237 municípios</p>
+            <div class="text-4xl font-black mb-6">30</div>
+            <ul class="text-left text-sm text-white/80 space-y-3 mb-2 w-full">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> 19 com concordância dos dois modelos
+                </li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Não gastam menos: R$ 22,8 mil por aluno
+                </li>
+            </ul>
+        </div>
+
+        <div
+            class="glass-card rounded-2xl p-8 flex flex-col items-center text-center border-t-4 border-t-[#FFA203] relative transform scale-105 z-10 shadow-2xl">
+            <div
+                class="absolute -top-3 bg-[#FFA203] text-[#222222] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">
+                Foco regional</div>
+            <i data-lucide="map-pin" class="w-10 h-10 mb-4 primary-color"></i>
+            <h4 class="text-xl font-bold mb-2">Entorno de Brasília</h4>
+            <p class="text-white/60 text-sm mb-6">microrregião com mais casos</p>
+            <div class="text-4xl font-black primary-color mb-6">7 de 30</div>
+            <ul class="text-left text-sm text-white/80 space-y-3 mb-2 w-full">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Novo Gama, Planaltina, Cidade Ocidental, Santo Antônio do Descoberto…
+                </li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Sugere ação regional com o estado
+                </li>
+            </ul>
+        </div>
+
+        <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center border-t-4 border-t-white/20">
+            <i data-lucide="trending-up" class="w-10 h-10 mb-4 text-white/70"></i>
+            <h4 class="text-xl font-bold mb-2">Acima do esperado</h4>
+            <p class="text-white/60 text-sm mb-6">nas duas edições</p>
+            <div class="text-4xl font-black mb-6">28</div>
+            <ul class="text-left text-sm text-white/80 space-y-3 mb-2 w-full">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Rio Verde e Goianésia: mais de 1 ponto acima
+                </li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 primary-color flex-shrink-0 mt-0.5"></i> Referências para estudar; Goiânia fica no esperado
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="map" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Goiás: primeiros municípios a diagnosticar</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-white/20">
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Município</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Microrregião</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">IDEB 2025</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Esperado</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Desvio 2023 / 2025</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10">
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Goiandira</td>
+                    <td class="py-3 px-4 text-white/80">Catalão</td>
+                    <td class="py-3 px-4 text-white/80">5,9</td>
+                    <td class="py-3 px-4 text-white/80">7,52</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−1,69 / −1,62</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Caturaí</td>
+                    <td class="py-3 px-4 text-white/80">Anápolis</td>
+                    <td class="py-3 px-4 text-white/80">5,4</td>
+                    <td class="py-3 px-4 text-white/80">6,78</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−0,83 / −1,38</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Santo Antônio do Descoberto</td>
+                    <td class="py-3 px-4 text-white/80">Entorno de Brasília</td>
+                    <td class="py-3 px-4 text-white/80">5,2</td>
+                    <td class="py-3 px-4 text-white/80">6,41</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−1,34 / −1,21</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Guarani de Goiás</td>
+                    <td class="py-3 px-4 text-white/80">Vão do Paranã</td>
+                    <td class="py-3 px-4 text-white/80">5,4</td>
+                    <td class="py-3 px-4 text-white/80">6,59</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−1,38 / −1,19</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Divinópolis de Goiás</td>
+                    <td class="py-3 px-4 text-white/80">Vão do Paranã</td>
+                    <td class="py-3 px-4 text-white/80">5,4</td>
+                    <td class="py-3 px-4 text-white/80">6,54</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−1,03 / −1,14</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Monte Alegre de Goiás</td>
+                    <td class="py-3 px-4 text-white/80">Chapada dos Veadeiros</td>
+                    <td class="py-3 px-4 text-white/80">5,4</td>
+                    <td class="py-3 px-4 text-white/80">6,53</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−1,41 / −1,13</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Hidrolândia</td>
+                    <td class="py-3 px-4 text-white/80">Goiânia</td>
+                    <td class="py-3 px-4 text-white/80">5,4</td>
+                    <td class="py-3 px-4 text-white/80">6,35</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−0,83 / −0,95</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Novo Gama</td>
+                    <td class="py-3 px-4 text-white/80">Entorno de Brasília</td>
+                    <td class="py-3 px-4 text-white/80">5,3</td>
+                    <td class="py-3 px-4 text-white/80">6,25</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">−0,58 / −0,95</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-white/10">
+        <p class="text-white/50 text-sm italic">* Os 8 maiores desvios entre os 19 municípios com concordância dos dois modelos. Lista completa no notebook 04.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-3xl" data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="clipboard-check" class="icon-line primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Recomendações para a gestão</h3>
+    </div>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-3xl font-black primary-color mr-4 num-estatico whitespace-nowrap">1</span>
+            <p class="text-white/90 text-lg pt-1">Usar o IDEB esperado como régua (faixa de ±0,5 ponto), e não a média nacional.</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-3xl font-black primary-color mr-4 num-estatico whitespace-nowrap">2</span>
+            <p class="text-white/90 text-lg pt-1">Diagnosticar em campo primeiro os 300 municípios com consenso (19 em Goiás).</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-3xl font-black primary-color mr-4 num-estatico whitespace-nowrap">3</span>
+            <p class="text-white/90 text-lg pt-1">Aprender com os 565 que superam o esperado (Rio Verde, Goianésia, o caso do Ceará).</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-3xl font-black primary-color mr-4 num-estatico whitespace-nowrap">4</span>
+            <p class="text-white/90 text-lg pt-1">Olhar a qualidade do gasto antes da quantidade.</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-3xl font-black primary-color mr-4 num-estatico whitespace-nowrap">5</span>
+            <p class="text-white/90 text-lg pt-1">Testar alavancas (formação docente, biblioteca, tempo integral) em pilotos avaliados.</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-3xl font-black primary-color mr-4 num-estatico whitespace-nowrap">6</span>
+            <p class="text-white/90 text-lg pt-1">Fazer uma ação regional no Entorno de Brasília e recalibrar o modelo a cada edição.</p>
+        </li>
+    </ul>
+</div>
+
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="alert-triangle" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-2xl font-bold text-white">Riscos e limitações</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-white/20">
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Limitação</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Efeito</th>
+                    <th class="py-3 px-4 text-[#FFA203] font-bold uppercase text-sm tracking-wider">Mitigação</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10">
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Associação não é causalidade</td>
+                    <td class="py-3 px-4 text-white/80">Coeficientes não medem o efeito de investir</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-[#FFA203]/20 text-[#FFA203] border-[#FFA203]/30 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Pilotos com grupo de comparação</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">INSE de 2015</td>
+                    <td class="py-3 px-4 text-white/80">Nível socioeconômico defasado</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Atualizar quando houver novo</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Indicadores de 2022</td>
+                    <td class="py-3 px-4 text-white/80">Defasagem de 3 anos no teste</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Arquivos oficiais do INEP</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Siconfi autodeclarado</td>
+                    <td class="py-3 px-4 text-white/80">Erros de valor; 4,2% sem gasto em 2025</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Regra de plausibilidade</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Redes pequenas</td>
+                    <td class="py-3 px-4 text-white/80">IDEB oscila entre edições</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Exigir duas edições</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-3 px-4 text-white font-medium">Municípios sem IDEB (5,9%)</td>
+                    <td class="py-3 px-4 text-white/80">Viés de seleção</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-white/10 text-white border-white/20 text-xs px-3 py-1 rounded-full border whitespace-nowrap">Outros indicadores</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-white/10">
+        <p class="text-white/50 text-sm italic">* R² em torno de 0,5: metade da variação entre municípios fica sem explicação, por isso o esperado é uma faixa.</p>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl p-10 w-full max-w-2xl text-center relative" data-aos="fade-right"
+    data-aos-delay="200">
+    <div class="absolute top-4 left-6 text-7xl font-serif primary-color opacity-20">“</div>
+
+    <blockquote class="relative z-10">
+        <p class="text-2xl italic text-white/90 leading-relaxed mb-6">
+            O modelo não diz onde investir. Ele diz onde olhar primeiro e com quem comparar.
+        </p>
+        <cite class="not-italic">
+            <div class="w-12 h-1 primary-bg mx-auto mb-4"></div>
+            <span class="block text-white font-bold text-lg">Conclusão</span>
+            <span class="block text-white/60 text-sm">Problema 4 – Política e Gestão Pública</span>
+        </cite>
+    </blockquote>
+</div>
+</main>
+<footer class="py-12 text-center text-white/60">
+    <p>&copy; 2026 · Pedro Lytus – LYTUS Inteligência de Negócios · FATESG. Fonte: Base dos Dados (INEP, Tesouro Nacional/Siconfi e IBGE).</p>
+</footer>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        lucide.createIcons();
+
+        // === Navegação Card-a-Card ===
+        const cardSections = [];
+
+        function buildCardSections() {
+            cardSections.length = 0;
+            // Busca wrappers gerados via JS (fallback para cards se script falhar)
+            const wrappers = document.querySelectorAll('.fullscreen-wrapper');
+            if (wrappers.length > 0) {
+                wrappers.forEach(el => cardSections.push(el));
+            } else {
+                document.querySelectorAll('main > .glass-card, main > div:not(.glass-card)').forEach(el => cardSections.push(el));
+            }
+        }
+
+        function getCurrentSectionIndex() {
+            const scrollTop = window.scrollY + window.innerHeight * 0.3;
+            let idx = -1;
+            for (let i = 0; i < cardSections.length; i++) {
+                if (cardSections[i].offsetTop <= scrollTop) {
+                    idx = i;
+                }
+            }
+            return idx;
+        }
+
+        // === Scroll: Progresso + Visibilidade do Botão ===
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('reading-progress').style.width = progress + '%';
+
+            const btn = document.getElementById('next-card');
+            if (scrollTop > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+
+            const icon = document.getElementById('next-card-icon');
+            const atBottom = (scrollTop + window.innerHeight) >= (document.documentElement.scrollHeight - 100);
+            if (atBottom) {
+                icon.setAttribute('data-lucide', 'chevron-up');
+            } else {
+                icon.setAttribute('data-lucide', 'chevron-down');
+            }
+            lucide.createIcons();
+        });
+
+        // === Clique: Próximo Card ===
+        document.getElementById('next-card').addEventListener('click', () => {
+            const atBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - 100);
+            if (atBottom) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            const idx = getCurrentSectionIndex();
+            const nextIdx = idx + 1;
+            if (nextIdx < cardSections.length) {
+                // Sempre alinha ao TOPO do wrapper (que é 100vh e centralizado)
+                cardSections[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // === Animações: Contadores e Barras de Progresso ===
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.textContent = Math.ceil(current) + '%';
+                        requestAnimationFrame(updateCounter);
+                    } else { counter.textContent = target + '%'; }
+                };
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => { if (entry.isIntersecting) { updateCounter(); observer.unobserve(entry.target); } });
+                });
+                observer.observe(counter);
+            });
+        }
+
+        function animateProgressBars() {
+            document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => { bar.style.width = bar.getAttribute('data-width') + '%'; }, 200);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                observer.observe(bar);
+            });
+        }
+
+        // === Configuração de Modo Tela Cheia (Wrappers) ===
+        function setupFullScreenWrappers() {
+            const main = document.querySelector('main');
+            if (!main) return;
+
+            // Remove espaçamentos antigos
+            main.classList.remove('gap-[60vh]', 'py-20');
+            main.style.paddingTop = '';
+
+            const children = Array.from(main.children);
+            children.forEach(child => {
+                if (child.tagName === 'DIV' && !child.classList.contains('fullscreen-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'min-h-screen w-full flex items-center justify-center fullscreen-wrapper snap-start p-4';
+                    child.parentNode.insertBefore(wrapper, child);
+                    wrapper.appendChild(child);
+                }
+            });
+
+            buildCardSections();
+        }
+
+        // === Inicia ===
+        document.addEventListener('DOMContentLoaded', () => {
+            setupFullScreenWrappers();
+            setTimeout(animateCounters, 500);
+            setTimeout(animateProgressBars, 600);
+
+            const headerBtn = document.getElementById('header-next-btn');
+            if (headerBtn) {
+                headerBtn.addEventListener('click', () => {
+                    if (cardSections.length > 0) {
+                        cardSections[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+
+            // === Navegação por Teclado ===
+            document.addEventListener('keydown', (e) => {
+                const idx = getCurrentSectionIndex();
+
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    const nextIdx = idx + 1;
+                    if (nextIdx < cardSections.length) {
+                        cardSections[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    const prevIdx = idx - 1;
+                    if (prevIdx >= 0) {
+                        cardSections[prevIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else if (idx === 0 || idx === -1) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            });
+
+            window.addEventListener('resize', setupFullScreenWrappers);
+        });
+    </script>
+</body>
+
+</html>
