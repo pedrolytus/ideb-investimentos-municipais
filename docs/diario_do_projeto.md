@@ -417,6 +417,7 @@ Esse cuidado atende diretamente ao critério "prevenção de vazamento de dados"
 - A justificativa compara os 6 métodos da disciplina numa tabela (tipo, se estima o IDEB, como se interpreta e papel no trabalho) e explica, com os números do projeto, por que a Regressão Linear é a principal, o SVR o desafiante, a Regressão Logística complementar e os agrupamentos descartados.
 - Tempo total estimado: cerca de 19 minutos. Os slides 12, 17 e 18 podem ser encurtados se faltar tempo.
 - Ajuste de paginação no PDF: as falas não se dividem entre páginas, e cada legenda fica junto do print correspondente.
+- Autoria nos materiais de apresentação: a capa e o rodapé dos slides e o subtítulo dos PDFs passaram a citar a dupla, Pedro Lytus e Daniela Ferreira (FATESG, turma IA-4). No guia, o Pedro apresenta os slides 1 a 8, 20, 21 e 24, e a Daniela, os slides 9 a 19, 22 e 23.
 
 **Para a apresentação:** a frase-resumo da escolha do método está no fim da seção 1 do guia e deve ser dita no slide 9 ou na resposta à pergunta 9.
 

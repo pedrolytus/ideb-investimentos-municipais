@@ -4,7 +4,7 @@ Roteiro da dupla para a apresentação do Problema 4. O guia tem quatro partes: 
 
 - **Arquivos:** `docs/apresentacao/index.html` (abrir no navegador e avançar com as setas ← →). Precisa de internet para carregar as bibliotecas visuais. Sem rede, use `docs/apresentacao/apresentacao.pdf`, que tem os mesmos 24 slides, na mesma numeração deste guia.
 - **Duração:** cerca de 19 minutos de fala, mais as perguntas. Se o tempo for curto, os slides 12, 17 e 18 podem ser passados em 10 segundos cada.
-- **Divisão de fala:** a Pessoa A apresenta os slides 1 a 8 (negócio, dados e proposta), 20 e 21 (Goiás) e 24 (fechamento). A Pessoa B apresenta os slides 9 a 19 (métodos, implementação e resultados), 22 e 23 (recomendações e limitações).
+- **Divisão de fala:** o Pedro apresenta os slides 1 a 8 (negócio, dados e proposta), 20 e 21 (Goiás) e 24 (fechamento). A Daniela apresenta os slides 9 a 19 (métodos, implementação e resultados), 22 e 23 (recomendações e limitações).
 - **Fonte dos números:** `docs/diario_do_projeto.md` e os notebooks executados do zero na validação final. Os prints vêm desses notebooks.
 
 ---
@@ -72,19 +72,19 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ## 2. Roteiro slide a slide
 
-### Slide 1 – Abertura · Pessoa A · 40 s
+### Slide 1 – Abertura · Pedro · 40 s
 
-> Boa noite. Somos [nomes da dupla], e vamos apresentar o Problema 4, de Política e Gestão Pública. A pergunta é: quais características dos municípios acompanham um IDEB maior, e quem está abaixo do esperado para o seu perfil? O número na tela é o ponto de partida: em 2023, só 46% dos municípios atingiram a meta nacional de 6,0 nos anos iniciais da rede municipal. É na outra metade que o planejamento orçamentário precisa agir.
+> Boa noite. Eu sou o Pedro Lytus, esta é a Daniela Ferreira, e vamos apresentar o Problema 4, de Política e Gestão Pública. A pergunta é: quais características dos municípios acompanham um IDEB maior, e quem está abaixo do esperado para o seu perfil? O número na tela é o ponto de partida: em 2023, só 46% dos municípios atingiram a meta nacional de 6,0 nos anos iniciais da rede municipal. É na outra metade que o planejamento orçamentário precisa agir.
 
-### Slide 2 – O problema de negócio · Pessoa A · 50 s
+### Slide 2 – O problema de negócio · Pedro · 50 s
 
 > Nós nos colocamos no lugar de uma equipe de gestão pública que planeja o orçamento da educação. Ela não precisa só de uma previsão. Precisa saber quais fatores acompanham as diferenças entre municípios e qual IDEB seria justo esperar de cada um. Para isso, cruzamos seis fontes oficiais, do INEP, do Tesouro Nacional e do IBGE, pelo código do município. São 5.241 municípios em 2023 e 5.320 em 2025. A extração foi feita no BigQuery, no modo gratuito, então o custo foi zero.
 
-### Slide 3 – Da pergunta ao recorte · Pessoa A · 60 s
+### Slide 3 – Da pergunta ao recorte · Pedro · 60 s
 
 > A primeira decisão foi o recorte, e ela veio do negócio, não da técnica. Perguntamos: quem financia cada etapa? O ensino médio é quase todo estadual, e os anos finais são divididos entre estado e prefeitura. Os anos iniciais, do 1º ao 5º ano, são a etapa que a prefeitura financia quase sozinha. Então, para falar de investimento municipal, o alvo é o IDEB dos anos iniciais da rede municipal. Cada linha da base é um município num ano. Treinamos com 2023 e testamos com 2025, uma edição que o modelo nunca viu. 2021 ficou de fora por causa da pandemia. Como o IDEB é um número contínuo, a tarefa é regressão supervisionada.
 
-### Slide 4 – Variáveis consideradas e quem as controla · Pessoa A · 60 s
+### Slide 4 – Variáveis consideradas e quem as controla · Pedro · 60 s
 
 > Organizamos as variáveis pelo que o gestor controla. O contexto socioeconômico, como o nível socioeconômico das famílias, o PIB per capita e a parcela de alunos da zona rural, ele não controla no curto prazo: essas variáveis entram como controle, para comparar municípios parecidos. Professores e gestão ele controla em parte, por concurso, formação e lotação. Infraestrutura e gasto ele controla. E há fatores externos que nenhuma variável municipal mede, como a política educacional do estado e a participação dos alunos na prova. Uma regra valeu para tudo: nada que entra no cálculo do IDEB, como aprovação ou nota do SAEB, entrou no modelo. No fim ficaram 24 variáveis, mais a UF.
 
@@ -98,15 +98,15 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Base gravada](prints/print_02_base_gravada.png)
 
-### Slide 5 – IDEB 2023 por UF · Pessoa A · 45 s
+### Slide 5 – IDEB 2023 por UF · Pedro · 45 s
 
 > Este gráfico mostra o IDEB mediano de cada estado, com a faixa entre o primeiro e o terceiro quartil. A diferença é grande: a média vai de 4,77 no Norte a 6,35 no Sul. Goiás, em azul, tem a sexta maior mediana do país, 6,2. Isso já indica que o estado pesa muito. Por isso o nosso ponto de comparação, o baseline, é a média do IDEB da UF: qualquer modelo precisa fazer melhor do que isso.
 
-### Slide 6 – INSE e IDEB, com o Ceará em destaque · Pessoa A · 50 s
+### Slide 6 – INSE e IDEB, com o Ceará em destaque · Pedro · 50 s
 
 > O nível socioeconômico é a variável mais associada ao IDEB, com correlação de 0,57. Mas reparem nos pontos laranja: são municípios do Ceará. Eles têm nível socioeconômico baixo e IDEB acima da tendência, em média 1,82 ponto acima. Não é erro da base. O Ceará mantém desde 2007 uma política estadual de alfabetização em parceria com os municípios. É um exemplo de fator externo, e ele vai reaparecer na modelagem.
 
-### Slide 7 – Desafios de dados, antes de modelar · Pessoa A · 75 s
+### Slide 7 – Desafios de dados, antes de modelar · Pedro · 75 s
 
 > Antes de modelar, encontramos três problemas. O primeiro foi na fonte: os indicadores educacionais de 2023 e 2024 vieram com colunas trocadas na Base dos Dados. Goiânia aparecia com 4 alunos por turma, quando o valor real é 24,5. Detectamos comparando com 2022 e passamos a usar 2022 nas duas safras. O segundo foi o gasto declarado no Siconfi: um município mineiro declarou 191 mil reais por aluno, e outros menos de 50 reais. Valores abaixo de mil ou acima de 60 mil reais por aluno viraram ausentes, 15 casos. O terceiro, e mais importante, é o vazamento: o IDEB é a nota do SAEB multiplicada pela taxa de aprovação. Se essas variáveis entrassem, o modelo acertaria sem aprender nada útil. Nenhuma entrou. E tudo que aprende com os dados, como a imputação e a padronização, fica dentro do Pipeline, ajustado só no treino.
 
@@ -120,17 +120,17 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Gastos implausíveis](prints/print_01_gasto_implausivel.png)
 
-### Slide 8 – A proposta · Pessoa A · 50 s
+### Slide 8 – A proposta · Pedro · 50 s
 
 > Esta é a proposta do trabalho. Em vez de comparar cada município com a média nacional, comparamos com o IDEB esperado para municípios de perfil parecido no mesmo estado. É mais justo: um município pobre com IDEB 5,5 pode estar acima do esperado, e um município rico com 6,0 pode estar abaixo. O gráfico mostra Goiás. Os pontos laranja ficam abaixo do esperado nas duas edições, e os azuis, acima. Os de baixo são candidatos a diagnóstico; os de cima, referências para aprender.
 
-**Transição:** "Agora [nome da Pessoa B] explica como chegamos a esse IDEB esperado."
+**Transição:** "Agora a Daniela explica como chegamos a esse IDEB esperado."
 
-### Slide 9 – Seleção do método · Pessoa B · 75 s
+### Slide 9 – Seleção do método · Daniela · 75 s
 
 > A disciplina limitou a escolha a seis métodos. Três deles, GMM, DBSCAN e Mean Shift, são agrupamentos não supervisionados: encontram grupos de municípios parecidos, mas não estimam o IDEB, que é a nossa pergunta. A Regressão Logística só serviria se a pergunta virasse "atingiu 6,0, sim ou não?", e aí perderíamos a informação de quanto falta. Ficamos com dois modelos de regressão. A Regressão Linear é o principal: com as variáveis padronizadas, cada coeficiente diz quanto o IDEB esperado muda com cada fator, mantidos os demais, e é isso que o gestor precisa explicar. O SVR, a versão do SVM para regressão, com kernel RBF, é o desafiante: capta relações não lineares, mas não tem coeficientes. E os dois precisam superar o baseline da média da UF.
 
-### Slide 10 – Pipeline em Python · Pessoa B · 50 s
+### Slide 10 – Pipeline em Python · Daniela · 50 s
 
 > A implementação é em Python, com pandas, scikit-learn e statsmodels, em quatro notebooks. O código na tela é o centro do projeto. O pré-processamento fica dentro do Pipeline: limitamos os valores extremos ao 1º e ao 99º percentil, preenchemos os ausentes com a mediana e padronizamos. A UF entra em one-hot. Como tudo isso está dentro do Pipeline, em cada dobra da validação cruzada esses ajustes são aprendidos só com o treino daquela dobra. A validação é KFold com cinco dobras e semente fixa, igual para todos os modelos. No SVR, os hiperparâmetros C, epsilon e gamma foram escolhidos por busca em grade, com validação aninhada.
 
@@ -138,7 +138,7 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![GridSearch do SVR](prints/print_03_gridsearch_svr.png)
 
-### Slide 11 – Comparação dos modelos na validação cruzada · Pessoa B · 60 s
+### Slide 11 – Comparação dos modelos na validação cruzada · Daniela · 60 s
 
 > Aqui está o principal desafio da modelagem. A nossa primeira Regressão Linear, com a região, errou mais que o baseline: RMSE de 0,733 contra 0,686. Ou seja, com 24 variáveis ela foi pior do que simplesmente usar a média do estado. O motivo é o que vimos no Ceará: a região junta estados muito diferentes. Trocamos a região pela UF, e o erro caiu para 0,642, 6,5% abaixo do baseline. O SVR ajustado chegou a 0,645, praticamente empatado. Com o empate, ficamos com a Regressão Linear, que explica os fatores.
 
@@ -156,11 +156,11 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Comparação na validação cruzada](prints/print_03_comparacao_cv.png)
 
-### Slide 12 – Ganho de R² por bloco de variáveis · Pessoa B · 40 s
+### Slide 12 – Ganho de R² por bloco de variáveis · Daniela · 40 s
 
 > Este gráfico mostra quanto cada grupo de variáveis acrescenta ao R², adicionando um bloco por vez depois da UF. O contexto socioeconômico é o que mais acrescenta. Escala, professores e infraestrutura somam cerca de 0,01 cada. E o gasto por aluno, quando entra por último, não acrescenta nada: a informação que ele carrega já estava nas outras variáveis. Guardem esse resultado, porque ele volta quando falarmos de investimento.
 
-### Slide 13 – Teste fora do tempo: IDEB 2025 · Pessoa B · 50 s
+### Slide 13 – Teste fora do tempo: IDEB 2025 · Daniela · 50 s
 
 > Com tudo escolhido, testamos uma única vez em 2025. O erro subiu, mas a maior parte é viés: o IDEB real ficou, em média, 0,35 ponto acima do previsto, porque o país melhorou entre as edições, e um modelo treinado em 2023 não tem como saber disso. Descontado esse deslocamento, a variação explicada foi de 39% no baseline, 45% na Regressão Linear e 50% no SVR. E a ordem dos municípios se manteve, com correlação de 0,70 entre previsto e real na Regressão Linear.
 
@@ -170,11 +170,11 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Teste 2025](prints/print_04_teste_2025.png)
 
-### Slide 14 – Previsto x real em 2025 · Pessoa B · 45 s
+### Slide 14 – Previsto x real em 2025 · Daniela · 45 s
 
 > Cada ponto é um município. A linha cinza é "previsto igual a real", e a laranja é a mesma linha deslocada em 0,35. Os pontos acompanham a laranja: o modelo acerta a posição relativa e erra o nível. Para priorizar, o que importa é a posição. Um registro honesto: no teste, o SVR errou 4,6% menos que a Regressão Linear. Não trocamos de modelo, porque a escolha foi feita antes do teste, mas medimos se isso muda a decisão. Mostramos isso daqui a pouco.
 
-### Slide 15 – Coeficientes da Regressão Linear · Pessoa B · 60 s
+### Slide 15 – Coeficientes da Regressão Linear · Daniela · 60 s
 
 > Este é o resultado que responde à pergunta do gestor. Cada ponto mostra quanto o IDEB muda quando o fator aumenta um desvio-padrão, comparando municípios do mesmo estado e mantido o resto. Azul é positivo, vermelho é negativo, e cinza quer dizer que o intervalo de confiança cruza o zero. O nível socioeconômico domina: 5 pontos a mais no INSE acompanham 0,31 ponto de IDEB. Depois vêm a parcela de docentes com ensino superior, com 0,05 ponto a cada 10 pontos percentuais, e a infraestrutura pedagógica: biblioteca, internet, laboratório, quadra e tempo integral. Esforço docente alto e escolas com gestão complexa acompanham IDEB menor. Antes de interpretar, conferimos a multicolinearidade: nenhum VIF passou de 5.
 
@@ -186,7 +186,7 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![VIF](prints/print_03_vif.png)
 
-### Slide 16 – Quanto vale dobrar o gasto por aluno? · Pessoa B · 45 s
+### Slide 16 – Quanto vale dobrar o gasto por aluno? · Daniela · 45 s
 
 > Agora a pergunta que todo gestor faz: gastar mais aumenta o IDEB? Sem nenhum controle, dobrar o gasto por aluno acompanha 0,41 ponto de IDEB. Controlando o nível socioeconômico e o PIB, cai para 0,20. Comparando dentro da mesma UF, 0,11. No modelo completo, 0,06. A associação vai encolhendo à medida que o contexto entra.
 
@@ -194,19 +194,19 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Atenuação do gasto](prints/print_01_atenuacao_gasto.png)
 
-### Slide 17 – Gasto por aluno e IDEB por faixa de INSE · Pessoa B · 40 s
+### Slide 17 – Gasto por aluno e IDEB por faixa de INSE · Daniela · 40 s
 
 > O gráfico mostra por quê. A linha preta, com todos os municípios, sobe bastante do menor para o maior gasto. Mas, dentro de cada faixa de nível socioeconômico, a subida é bem menor. Quem gasta mais tem, em média, alunos de nível socioeconômico mais alto: no quintil de maior gasto, 45% dos municípios têm INSE alto. Isso é confusão, e é o exemplo concreto de que associação não é causalidade.
 
-### Slide 18 – Leitura dos resultados · Pessoa B · 20 s
+### Slide 18 – Leitura dos resultados · Daniela · 20 s
 
 > A nossa leitura é esta: entre municípios parecidos, gastar mais por aluno, sozinho, acompanha uma diferença pequena no IDEB. O que provavelmente pesa é como o recurso é usado, e isso a base não mede.
 
-### Slide 19 – Priorização · Pessoa B · 50 s
+### Slide 19 – Priorização · Daniela · 50 s
 
 > Para transformar o modelo em decisão, criamos uma regra. Um município fica abaixo do esperado quando o IDEB real está pelo menos meio ponto abaixo do esperado em 2023 e também em 2025. Exigimos duas edições porque redes pequenas oscilam. E o desvio se repete: a correlação entre as duas edições é de 0,66, então não é ruído. São 534 municípios abaixo do esperado. Aqui entra o teste com o SVR: os dois modelos concordam em 88,9% das classificações, e em 300 municípios os dois apontam abaixo do esperado. Essa é a lista principal.
 
-**Transição:** "Agora [nome da Pessoa A] mostra o que isso significa para Goiás."
+**Transição:** "Agora o Pedro mostra o que isso significa para Goiás."
 
 **Print – municípios acima e abaixo do esperado nas duas edições (notebook 04)**
 
@@ -216,7 +216,7 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Robustez](prints/print_04_robustez.png)
 
-### Slide 20 – Goiás: estudo de caso · Pessoa A · 50 s
+### Slide 20 – Goiás: estudo de caso · Pedro · 50 s
 
 > Em Goiás, dos 237 municípios com as duas edições, 30 ficam abaixo do esperado nas duas, e o SVR concorda em 19. Sete deles estão no Entorno de Brasília, como Novo Gama, Planaltina e Cidade Ocidental, a maioria cidades de periferia metropolitana. Isso sugere uma ação regional, em conjunto com o estado. Um dado importante: esses municípios não gastam menos que os que ficam acima do esperado. A mediana é de 22,8 mil reais por aluno, contra 23,8 mil. Do outro lado, 28 municípios ficam acima do esperado nas duas edições, como Rio Verde e Goianésia, que gastam abaixo da mediana do estado. Goiânia fica dentro do esperado.
 
@@ -224,25 +224,25 @@ No teste, o SVR errou 4,6% menos que a Regressão Linear (RMSE de 0,711 contra 0
 
 ![Goiás acima do esperado](prints/print_04_goias_acima.png)
 
-### Slide 21 – Goiás: primeiros municípios a diagnosticar · Pessoa A · 40 s
+### Slide 21 – Goiás: primeiros municípios a diagnosticar · Pedro · 40 s
 
 > Esta é a lista dos primeiros municípios para diagnóstico: os oito maiores desvios entre os 19 que os dois modelos apontam. Goiandira, por exemplo, tinha IDEB esperado de 7,5 em 2025 e ficou com 5,9, e o desvio se repetiu em 2023. A lista completa, com os 30, está no notebook 04. O próximo passo para esses municípios não é cortar nem mandar recurso: é uma visita técnica para entender o que está acontecendo.
 
-**Transição:** "Para fechar, [nome da Pessoa B] apresenta as recomendações e as limitações."
+**Transição:** "Para fechar, a Daniela apresenta as recomendações e as limitações."
 
 **Print – Goiás, municípios abaixo do esperado nas duas edições (notebook 04)**
 
 ![Goiás abaixo do esperado](prints/print_04_goias_abaixo.png)
 
-### Slide 22 – Recomendações para a gestão · Pessoa B · 60 s
+### Slide 22 – Recomendações para a gestão · Daniela · 60 s
 
 > Estas são as nossas recomendações. Primeira: usar o IDEB esperado como régua, sempre como faixa de mais ou menos meio ponto, e não como meta exata. Segunda: diagnosticar em campo primeiro os 300 municípios em que os dois modelos concordam, 19 deles em Goiás. Terceira: aprender com os 565 que superam o esperado. Quarta: olhar a qualidade do gasto antes da quantidade. Quinta: testar as alavancas, como formação docente, biblioteca e tempo integral, em pilotos avaliados, com grupo de comparação. Sexta: fazer uma ação regional no Entorno de Brasília e recalibrar o modelo a cada edição do IDEB.
 
-### Slide 23 – Riscos e limitações · Pessoa B · 45 s
+### Slide 23 – Riscos e limitações · Daniela · 45 s
 
 > E as limitações, que fazem parte do resultado. Associação não é causalidade: os coeficientes não medem o efeito de investir. O INSE é de 2015, e os indicadores docentes, de 2022. O gasto do Siconfi é autodeclarado. Redes pequenas oscilam, e por isso exigimos duas edições. Os municípios sem IDEB, 5,9% do país, ficam fora da análise. E o R² fica em torno de 0,5: metade da diferença entre municípios vem do que a base não mede.
 
-### Slide 24 – Conclusão · Pessoa A · 20 s
+### Slide 24 – Conclusão · Pedro · 20 s
 
 > Para fechar: o modelo não diz onde investir. Ele diz onde olhar primeiro e com quem comparar. Obrigado. Ficamos à disposição para as perguntas.
 
@@ -349,7 +349,7 @@ Começaria pelos 19 municípios que os dois modelos apontam como abaixo do esper
 
 ## 5. Checklist antes de apresentar
 
-- [ ] Preencher os nomes da dupla nas falas dos slides 1, 8, 19 e 21.
+- [ ] Confirmar a divisão de fala entre o Pedro e a Daniela (trocar os blocos, se preferirem).
 - [ ] Abrir `docs/apresentacao/index.html` no computador da sala e testar a navegação com as setas.
 - [ ] Ter `docs/apresentacao/apresentacao.pdf` no pendrive, caso falte internet.
 - [ ] Ensaiar uma vez com cronômetro (meta: 19 minutos).

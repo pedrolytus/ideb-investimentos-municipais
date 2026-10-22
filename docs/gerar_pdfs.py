@@ -19,8 +19,8 @@ ARQUIVOS = ['diario_do_projeto', 'guia_apresentacao']
 NAVEGADORES = [r'C:\Program Files\Google\Chrome\Application\chrome.exe',
                r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
                r'C:\Program Files\Microsoft\Edge\Application\msedge.exe']
-SUBTITULO = ('Problema 4 – Política e Gestão Pública · FATESG – Aprendizado de Máquina Supervisionado<br>'
-             'Pedro Lytus – LYTUS Inteligência de Negócios')
+SUBTITULO = ('Problema 4 – Política e Gestão Pública · FATESG · IA-4 – Aprendizado de Máquina Supervisionado<br>'
+             'Pedro Lytus · Daniela Ferreira')
 
 CSS = """
 @page {
