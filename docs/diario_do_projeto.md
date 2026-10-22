@@ -250,6 +250,40 @@ Esse cuidado atende diretamente ao critério "prevenção de vazamento de dados"
 
 **Para a apresentação:** o projeto é reprodutível: consulta SQL, dados brutos, ambiente e notebooks estão versionados juntos.
 
+### Fase 15 – Entendimento do negócio e análise exploratória (22/10/2026)
+
+**O que fizemos:** escrevemos o notebook `01_negocio_e_exploracao.ipynb`, com a análise do negócio (quem decide, que decisão o modelo apoia, variáveis e fatores externos), a formulação do problema e a exploração da base: cobertura, ausentes, unidades, valores implausíveis, distribuição do IDEB, diferenças por UF, correlações e uma primeira análise de confusão entre gasto e nível socioeconômico.
+
+**Por quê:** antes de preparar os dados precisávamos saber o que limpar, quais variáveis são redundantes e se a relação entre gasto e IDEB resiste ao contexto socioeconômico, que é a pergunta central do gestor.
+
+**Decisão de método:** as relações com o IDEB foram exploradas só na safra 2023 (treino). Em 2025 olhamos apenas cobertura e qualidade das features. Assim o teste fora do tempo continua "virgem". Na exploração rápida que fizemos antes de fixar essa regra, chegamos a calcular a média do IDEB 2025 (6,18, contra 5,79 em 2023). Registramos isso por transparência. Esse número não foi usado em nenhuma escolha de modelagem, e o viés do modelo em 2025 será medido no notebook 04.
+
+**Resultado**
+- 5.241 municípios em 2023, em 26 UFs. 329 municípios (5,9% do país) não têm IDEB da rede municipal, o que gera viés de seleção.
+- IDEB 2023: média 5,79, mediana 5,8, desvio 0,95. 46% dos municípios atingem 6,0.
+- Diferença regional grande: média de 4,77 no Norte e 6,35 no Sul. Goiás tem a 6ª maior mediana entre as 26 UFs (6,2).
+- Variáveis mais associadas ao IDEB (Spearman): INSE 0,57, % de escolas com quadra 0,45, com biblioteca 0,44, % de docentes sem superior −0,41, com superior 0,40, PIB per capita 0,39. Gasto por aluno: 0,25.
+- Confusão entre gasto e contexto: no 5º quintil de gasto, 45% dos municípios são de INSE alto e 14% de INSE baixo. Numa regressão exploratória, dobrar o gasto por aluno acompanha +0,41 ponto de IDEB sem controles, +0,20 controlando INSE e PIB per capita e +0,11 comparando dentro da mesma UF.
+- Ceará: todos os municípios com INSE ficam acima da tendência nacional entre INSE e IDEB, em média 1,82 ponto acima. Alagoas: 90%, com 1,06 ponto. Dos 28 municípios com IDEB ≥ 8,5, 24 são do CE ou de AL.
+
+**Desafios e ajustes**
+
+| Problema | Diagnóstico | Ajuste |
+|---|---|---|
+| Gasto por aluno com erros de declaração | 15 linhas implausíveis. O pior caso é um município mineiro de 136 mil habitantes com R$ 1,28 bilhão declarados em ensino fundamental (R$ 191 mil por aluno). Outros declaram menos de R$ 50 por aluno. | Abaixo de R$ 1 mil ou acima de R$ 60 mil vira ausente. O restante será limitado em p1/p99 do treino, dentro do pipeline. |
+| Gasto de 2025 mais incompleto | Ausente em 4,1% das linhas de 2025 contra 0,65% em 2023: a declaração do Siconfi de 2025 ainda não está completa. | Imputação pela mediana do treino. Registrado como limitação do teste. |
+| Escalas diferentes | As colunas `pct_esc_*` vêm em fração (0 a 1), e as demais porcentagens em 0 a 100. | Converter para 0 a 100 no notebook 02. |
+| Colunas redundantes | AFD, IED, ICG e IRD somam 100% em cada grupo. % com superior e % sem superior têm correlação de −0,98. População e número de escolas: 0,80. | Resumir cada grupo num indicador e remover os espelhos. |
+| Instabilidade de redes pequenas | Em 2023 a dispersão do IDEB não cresce nas redes pequenas (desvio de 0,86 no quintil menor e 0,96 no maior). A instabilidade é entre edições, e só dá para medir com o IDEB 2025. | Hipótese levada para o notebook 04: erro do modelo por tamanho de rede. |
+| Municípios com IDEB entre 9 e 10 | Concentrados no CE e em AL, ligados à política estadual de alfabetização. Não é erro de extração. | Mantidos. O erro do modelo nesses municípios será acompanhado, e vamos testar UF no lugar de região. |
+
+**Para a apresentação**
+- `figuras/01_ideb_por_uf_2023.png`: a desigualdade entre UFs, com Goiás e Ceará em destaque.
+- `figuras/01_inse_vs_ideb_ceara.png`: o nível socioeconômico explica muito, mas o Ceará fura a tendência. Bom gancho para discutir fatores externos (política estadual).
+- `figuras/01_gasto_vs_ideb_por_inse.png`: o slide de "associação não é causalidade". O gasto parece importar muito quando se olha tudo junto, e bem menos dentro de cada faixa socioeconômica.
+- `figuras/01_correlacoes_spearman_ideb.png` e `figuras/01_correlacoes_entre_features.png`: o que está associado ao IDEB e onde há redundância.
+- `figuras/01_ideb_distribuicao_2023.png`: distribuição do alvo e a meta 6,0.
+
 ---
 
 ## Destaques para a apresentação (atualizar ao longo do projeto)
