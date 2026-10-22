@@ -1,0 +1,79 @@
+{
+  "alvo": "ideb",
+  "chaves": [
+    "ano",
+    "id_municipio",
+    "sigla_uf"
+  ],
+  "numericas": [
+    "inse_medio_2015",
+    "log_pib_per_capita",
+    "log_populacao",
+    "pct_matr_residencia_rural",
+    "log_alunos_por_escola_ai",
+    "alunos_por_docente_ai",
+    "pct_matr_transporte_publico",
+    "pct_matr_integral_ai",
+    "atu_ef_anos_iniciais",
+    "had_ef_anos_iniciais",
+    "dsu_ef_anos_iniciais",
+    "pct_formacao_adequada",
+    "ied_medio",
+    "icg_medio",
+    "ird_medio",
+    "pct_esc_biblioteca",
+    "pct_esc_quadra",
+    "pct_esc_lab_informatica",
+    "pct_esc_lab_ciencias",
+    "pct_esc_internet_alunos",
+    "pct_esc_banda_larga",
+    "pct_esc_esgoto_rede",
+    "infra_basica",
+    "log_gasto_ef_por_aluno"
+  ],
+  "categoricas": [
+    "regiao"
+  ],
+  "grupos": {
+    "Contexto socioeconômico": [
+      "inse_medio_2015",
+      "log_pib_per_capita",
+      "log_populacao",
+      "pct_matr_residencia_rural"
+    ],
+    "Escala e oferta": [
+      "log_alunos_por_escola_ai",
+      "alunos_por_docente_ai",
+      "pct_matr_transporte_publico",
+      "pct_matr_integral_ai"
+    ],
+    "Professores e gestão": [
+      "atu_ef_anos_iniciais",
+      "had_ef_anos_iniciais",
+      "dsu_ef_anos_iniciais",
+      "pct_formacao_adequada",
+      "ied_medio",
+      "icg_medio",
+      "ird_medio"
+    ],
+    "Infraestrutura": [
+      "pct_esc_biblioteca",
+      "pct_esc_quadra",
+      "pct_esc_lab_informatica",
+      "pct_esc_lab_ciencias",
+      "pct_esc_internet_alunos",
+      "pct_esc_banda_larga",
+      "pct_esc_esgoto_rede",
+      "infra_basica"
+    ],
+    "Gasto": [
+      "log_gasto_ef_por_aluno"
+    ]
+  },
+  "ano_treino": 2023,
+  "ano_teste": 2025,
+  "regra_gasto": {
+    "minimo": 1000,
+    "maximo": 60000
+  }
+}

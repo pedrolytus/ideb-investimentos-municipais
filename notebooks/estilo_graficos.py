@@ -70,8 +70,9 @@ ROTULOS = {
     'pct_esc_esgoto_rede': '% escolas com esgoto da rede',
     'pct_esc_agua_potavel': '% escolas com água potável',
     'pct_esc_energia_rede': '% escolas com energia da rede',
-    'infra_basica': 'Infraestrutura básica (índice)',
-    'infra_pedagogica': 'Infraestrutura pedagógica (índice)',
+    'infra_basica': '% escolas com água e energia (média)',
+    'alunos_por_escola_ai': 'Alunos por escola',
+    'log_alunos_por_escola_ai': 'Alunos por escola (log)',
     'gasto_ef_por_aluno': 'Gasto EF por aluno',
     'log_gasto_ef_por_aluno': 'Gasto EF por aluno (log)',
 }

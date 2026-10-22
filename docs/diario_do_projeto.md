@@ -284,6 +284,28 @@ Esse cuidado atende diretamente ao critério "prevenção de vazamento de dados"
 - `figuras/01_correlacoes_spearman_ideb.png` e `figuras/01_correlacoes_entre_features.png`: o que está associado ao IDEB e onde há redundância.
 - `figuras/01_ideb_distribuicao_2023.png`: distribuição do alvo e a meta 6,0.
 
+### Fase 16 – Preparação dos dados (22/10/2026)
+
+**O que fizemos:** no notebook `02_preparacao_dados.ipynb` aplicamos as regras fixas de limpeza, convertemos escalas, resumimos os grupos de colunas e criamos as features derivadas. Gravamos `dados/processados/base_modelagem.csv` (10.561 linhas, 29 colunas) e `dados/processados/features.json`, com a lista de features que os notebooks 03 e 04 usam. Também criamos `notebooks/modelagem.py`, com o winsorizador, o baseline por UF, o pré-processador e as métricas.
+
+**Por quê:** separamos o que não aprende com os dados (regras fixas, aplicadas aqui) do que aprende (winsorização, imputação, padronização). Esse segundo grupo fica dentro do `Pipeline`, ajustado só no treino de cada dobra. É o que garante que nem a validação cruzada nem o teste de 2025 vazem informação para o ajuste.
+
+**Decisões**
+
+| Tema | Decisão | Motivo |
+|---|---|---|
+| Gasto implausível | Abaixo de R$ 1 mil ou acima de R$ 60 mil por aluno vira ausente (9 linhas em 2023, 6 em 2025) | Erro de declaração. Os limites são fixos e muito distantes de p1 e p99, então não dependem da amostra |
+| Demais extremos | Winsorização em p1/p99 de todas as features numéricas, dentro do pipeline | Reduz a influência de pontos extremos na Regressão Linear sem descartar municípios |
+| Escala | 12 colunas de fração (infraestrutura e matrículas) passaram para 0 a 100 | Mesma leitura para todas as porcentagens |
+| Grupos que somam 100% | 21 colunas viraram 4 indicadores: % de formação adequada (AFD 1) e médias ponderadas pelo nível de IED, ICG e IRD | Elimina a colinearidade perfeita e reduz a dimensão |
+| Redundâncias | Saíram % sem superior (−0,98 com % com superior) e número de escolas (substituído por alunos por escola) | Evitar coeficientes instáveis |
+| Água e energia | Viraram um indicador só (`infra_basica`) | São quase universais (mediana de 100%) e marcam apenas as redes mais precárias |
+| Logaritmo | População, PIB per capita, gasto por aluno e alunos por escola | Variáveis muito assimétricas |
+
+**Resultado:** 24 features numéricas em 5 grupos (contexto, escala e oferta, professores e gestão, infraestrutura e gasto), mais a região em one-hot. Nenhum par de features passa de 0,75 de correlação no treino (o maior é INSE × PIB per capita, 0,71). Ausentes que serão imputados pela mediana do treino: INSE em 236 municípios em 2023 (4,5%) e 257 em 2025 (4,8%); gasto por aluno em 43 (0,8%) e 224 (4,2%); as demais abaixo de 0,2%.
+
+**Para a apresentação:** `figuras/02_gasto_por_aluno_tratamento.png` mostra os gastos declarados em escala log, com os 15 valores implausíveis destacados. Vale explicar a divisão "regra fixa fora do pipeline, ajuste aprendido dentro do pipeline" como a forma concreta de prevenir vazamento.
+
 ---
 
 ## Destaques para a apresentação (atualizar ao longo do projeto)
